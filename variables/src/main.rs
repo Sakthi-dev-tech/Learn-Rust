@@ -2,6 +2,7 @@ use std::io;
 
 fn main() {
     // const are always immutable
+    #[allow(unused)]
     const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
     let x = 5;
@@ -11,6 +12,8 @@ fn main() {
     // shadowing is useful when we want a certain variable type but it is derived from a different
     // type. For e.g.
     let spaces = "   ";
+
+    #[allow(unused)]
     let spaces = spaces.len(); // when I just want to know the length of spaces
     // if I use mut here when declaring (let mut), I get an error because when I use mut, I am
     // reusing the same variable, and the type of the variable cannot be changed
@@ -48,8 +51,18 @@ fn main() {
 
     let mut index = String::new();
 
+    /*
+     * Think of the variable as a notebook, where you have your data (e.g. index here)
+     * When you pass &index, you are letting the other variable peek at your value (read-only)
+     * When you pass &mut index, you are giving your other variables a pen and paper, where they can
+     * change your data. If you let 2 variables write at the same time on the same page => race
+     * condition
+     */
     io::stdin()
-        .read_line(&mut index)
+        .read_line(&mut index) // If I pass in &index, that is a read-only access to the variable
+                               // &mut var, gives write-only access to the variable as you are
+                               // mutating the reference => appends the input string to the value
+                               // stored
         .expect("Failed to read index");
 
     let index: usize = index
