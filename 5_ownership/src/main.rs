@@ -70,4 +70,19 @@ fn main() {
     fn takes_ownership(str: String) {
         println!("{str}");
     } // s goes out of scope and "drop" is called. The backing memory is freed
+      
+    /*
+     * You are unable to have both mutable and immutable reference in the same scope
+     */
+
+    let mut s = String::from("hello");
+
+    let r1 = &s;
+    let r2 = &s;
+    println!("{r1} and {r2}");
+
+    let r3 = &mut s; // no problem as the scope for the immutable references (r1 and r2) end after
+                     // its print statement, before the mutable reference is created. Hence, these
+                     // scopes don't overlap and it is allowed
+    println!("{r3}");
 }
