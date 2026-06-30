@@ -1,3 +1,6 @@
+use std::io::{self, Write}; // equal to use std::io and use std::io::Write
+use std::collections::*; // we can use * for all import
+
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -13,6 +16,12 @@ mod front_of_house {
         fn take_payment() {}
     }
 }
+
+// Allows other external modules to call the add_to_waitlist function by using the path 
+// restaurant::hosting::add_to_waitlist instead of
+// restaurant::front_of_house::hosting::add_to_waitlist
+// where front_of_house has to be indicated as pub in that case
+pub use crate::front_of_house::hosting;
 
 mod back_of_house {
     pub struct Breakfast {
